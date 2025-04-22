@@ -47,6 +47,28 @@ document.addEventListener('DOMContentLoaded', function() {
         updateNumbers();
     });
 
+    function getBeverageWord(count) {
+        const lastDigit = count % 10;
+        const lastTwoDigits = count % 100;
+        if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
+            return 'напитков';
+        }
+        if (lastDigit === 1) {
+            return 'напиток';
+        }
+        if (lastDigit >= 2 && lastDigit <= 4) {
+            return 'напитка';
+        }
+        return 'напитков';
+    }
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        document.getElementById('orderSummary').textContent = 
+            `Вы заказали ${document.querySelectorAll('.beverage').length} ${
+                getBeverageWord(beverageCount)}`;
+        modalOverlay.style.display = 'flex';
+    });
+
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         modalOverlay.style.display = 'flex';
