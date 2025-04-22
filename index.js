@@ -30,6 +30,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
         return deleteButton;
     }
+
+    function getSelectedBeverageText(select) {
+        const options = select.options;
+        const selectedIndex = select.selectedIndex;
+        return options[selectedIndex].text;
+    }
+
+    function getSelectedMilkText(beverage) {
+        const selectedMilk = beverage.querySelector('input[name^="milk"]:checked');
+        switch(selectedMilk.value) {
+            case 'usual': return 'обычное';
+            case 'no-fat': return 'обезжиренное';
+            case 'soy': return 'соевое';
+            case 'coconut': return 'кокосовое';
+            default: return '';
+        }
+    }
+    
+    function getSelectedOptionsText(beverage) {
+        const options = [];
+        const checkboxes = beverage.querySelectorAll('input[name="options"]:checked');
+        
+        checkboxes.forEach(checkbox => {
+            switch(checkbox.value) {
+                case 'whipped cream': options.push('взбитые сливки'); break;
+                case 'marshmallow': options.push('зефирки'); break;
+                case 'chocolate': options.push('шоколад'); break;
+                case 'cinnamon': options.push('корица'); break;
+            }
+        });
+        
+        return options.join(', ');
+    }
     
     const firstBeverage = document.querySelector('.beverage');
     firstBeverage.appendChild(createDeleteButton(firstBeverage));
@@ -62,14 +95,48 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     form.addEventListener('submit', function(e) {
         e.preventDefault();
+        const beverageCount = document.querySelectorAll('.beverage').length;
         document.getElementById('orderSummary').textContent = 
-            `Вы заказали ${document.querySelectorAll('.beverage').length} ${
-                getBeverageWord(document.querySelectorAll('.beverage').length)}`;
-        modalOverlay.style.display = 'flex';
-    });
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
+            `Вы заказали ${beverageCount} ${getBeverageWord(beverageCount)}`;
+        
+        const orderDetails = document.getElementById('orderDetails');
+        orderDetails.innerHTML = '';
+        
+        const table = document.createElement('table');
+        table.className = 'order-table';
+        
+        const thead = document.createElement('thead');
+        thead.innerHTML = `
+            <tr>
+                <th>Напиток</th>
+                <th>Молоко</th>
+                <th>Дополнительно</th>
+            </tr>
+        `;
+        table.appendChild(thead);
+        const tbody = document.createElement('tbody');
+        const beverages = document.querySelectorAll('.beverage');
+        
+        beverages.forEach(beverage => {
+            const row = document.createElement('tr');
+            
+            const drinkCell = document.createElement('td');
+            drinkCell.textContent = getSelectedBeverageText(beverage.querySelector('select'));
+            
+            const milkCell = document.createElement('td');
+            milkCell.textContent = getSelectedMilkText(beverage);
+            
+            const optionsCell = document.createElement('td');
+            optionsCell.textContent = getSelectedOptionsText(beverage);
+            
+            row.appendChild(drinkCell);
+            row.appendChild(milkCell);
+            row.appendChild(optionsCell);
+            tbody.appendChild(row); 
+        });
+        
+        table.appendChild(tbody); 
+        orderDetails.appendChild(table); 
         modalOverlay.style.display = 'flex';
     });
     
