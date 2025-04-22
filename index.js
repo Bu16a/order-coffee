@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         document.getElementById('orderSummary').textContent = 
             `Вы заказали ${document.querySelectorAll('.beverage').length} ${
-                getBeverageWord(beverageCount)}`;
+                getBeverageWord(document.querySelectorAll('.beverage').length)}`;
         modalOverlay.style.display = 'flex';
     });
 
