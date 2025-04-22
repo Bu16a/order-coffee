@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalOverlay = document.getElementById('modalOverlay');
     const modalClose = document.querySelector('.modal-close');
 
-
     function updateNumbers() {
         const beverages = document.querySelectorAll('.beverage');
         beverages.forEach((beverage, index) => {
