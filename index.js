@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function getSelectedMilkText(beverage) {
         const selectedMilk = beverage.querySelector('input[name^="milk"]:checked');
+        if (!selectedMilk) return '';
         switch(selectedMilk.value) {
             case 'usual': return 'обычное';
             case 'no-fat': return 'обезжиренное';
