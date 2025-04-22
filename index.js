@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     const addButton = document.querySelector('.add-button');
+    const form = document.querySelector('form');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalClose = document.querySelector('.modal-close');
+
+
     function updateNumbers() {
         const beverages = document.querySelectorAll('.beverage');
         beverages.forEach((beverage, index) => {
@@ -50,5 +55,15 @@ document.addEventListener('DOMContentLoaded', function() {
         addButton.parentElement.before(newBeverage);
         updateNumbers();
     });
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        modalOverlay.style.display = 'flex';
+    });
+    
+    modalClose.addEventListener('click', function() {
+        modalOverlay.style.display = 'none';
+    });
+
     updateNumbers();
 });
